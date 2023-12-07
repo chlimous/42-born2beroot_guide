@@ -4,8 +4,8 @@
 
 ## Introduction
 
-This project aims to introduce you to the world of virtualization and server administration.
-I will guide you step by step through the whole project, from VM creation and OS installation to services installation and rules implementation.
+Born2beroot aims to introduce you to the world of virtualization and server administration.
+In this born2beroot guide, I'll lead you step by step through the whole project, from VM creation and OS installation to services installation and rules implementation.
 
 ## Table of Contents
 
@@ -54,7 +54,7 @@ These run directly on the host's hardware, facilitating optimized resource alloc
 </p>
 <p>
 <b>Types 2 (Hosted)</b>:
-These operate as an additional layer on top of your existing operating system, symplifying the management and accessbility of virtual machines. You will often hear about Virtualbox and VMware Workstation. They are used on PCs.
+These operate as an additional layer on top of your existing operating system, symplifying the management and accessibility of virtual machines. You will often hear about Virtualbox and VMware Workstation. They are used on PCs.
 </p>
 
 For this born2beroot guide and as per the project requirements, we will be using Virtualbox, an open source type 2 hypervisor.
@@ -69,7 +69,7 @@ Given that you are probably new to system administration, Debian is a good choic
 
 First, we need to get the latest ISO image of Debian. You can obtain it from [Debian's official website](https://www.debian.org/distrib/netinst) by selecting "amd64".
 <p>
-Open up Virtualbox and click "New". Name your virtual machine, choose the downloaded ISO image, and select a storage location for the data. If you're at 42 Paris, consider using an external drive or storing it in your sgoinfre, given that your home directory is limited to 5 GB abd sgoinfre to 30 GB. Make sure to check "Skip Unattended Installation" before proceeding to the next step.
+Open up Virtualbox and click "New". Name your virtual machine, choose the downloaded ISO image, and select a storage location for the data. If you're at 42 Paris, consider using an external drive or storing it in your sgoinfre, given that your home directory is limited to 5 GB and sgoinfre to 30 GB. Make sure to check "Skip Unattended Installation" before proceeding to the next step.
 </p>
 <p>
 Now, let's allocate resources to our virtual machine. I recommend allocating at least 4 GiB of RAM and 2 CPU cores, though I used 8 GiB of RAM and 8 CPU cores for better performance.
@@ -113,9 +113,11 @@ Set them both as "Ext4 journaling file system" and mount them respectively to ``
 
 ![Debian4](img/debian4.gif)
 
-Finally, when it comes to software selection, check "SSH server" and "standard system utilities". And just like that, we're done installing. Give your virtual machine a quick reboot to start exploring the rest of this born2beroot guide.
+Avoid scanning for extra installation media. Select the default Debian archive mirror and leave the proxy settings blank. Choose not to participate in the package usage survey. Ensure to install the GRUB loader.
 
-![Debian5](img/debian5.png)
+Finally, when it comes to software selection, only select "SSH server" and "standard system utilities". Use space to check/uncheck. And just like that, we're done installing. Give your virtual machine a quick reboot to start exploring the rest of this born2beroot guide.
+
+![Debian5](img/debian5.gif)
 
 ---
 
@@ -165,7 +167,7 @@ To enhance the server's security, we'll set up a firewall using UFW (Uncomplicat
 
 ``ufw default allow outgoing`` | Allows all outgoing requests.
 
-``ufw enable 4242`` | Allow incoming traffic on port ``4242``. tThis is crucial to ensure you can still access your server via SSH.
+``ufw allow 4242`` | Allow incoming traffic on port ``4242``. tThis is crucial to ensure you can still access your server via SSH.
 
 ``ufw enable`` | Enables UFW.
 
@@ -229,9 +231,9 @@ Go to the /etc/login.defs configuration file and modify the following lines:
 
 Now we need to ensure the policy changes we've made are applied to our current users:
 
-``chage -M 30 chlimous`` | Set ``PASS_MAX_DAYS`` to ``30`` days for user ``chlimous``.
+``chage -M 30 chlimous`` | Sets ``PASS_MAX_DAYS`` to ``30`` days for user ``chlimous``.
 
-``chage -m 2 chlimous`` | Set ``PASS_MIN_DAYS`` to ``2`` days for user ``chlimous``.
+``chage -m 2 chlimous`` | Sets ``PASS_MIN_DAYS`` to ``2`` days for user ``chlimous``.
 
 Apply these changes for both your user account and the root account.
 
@@ -257,7 +259,7 @@ Details:
 
 ``minlen`` | Minimum acceptable size for the new password.
 
-``difok`` | Number of characters in the new password that must not be present in the old password.
+``difok`` | Number of characters in the new password that must not be present in the old password. Even with enforce_for_root, this rule doesn't apply to the root user since the old password is not required to change it.
 
 ``maxrepeat`` | The maximum number of allowed same consecutive characters in the new password.
 
@@ -271,6 +273,10 @@ Details:
 
 ``enforce_for_root`` | Applies rules to root.
 
+With the new rules enforced, update the passwords for both your user account and the root account:
+
+``passwd chlimous`` | Changes the password of the ``chlimous`` user.
+
 ![pwquality](img/pwquality.gif)
 
 ---
@@ -281,7 +287,7 @@ Details:
 
 [You can check my script](monitoring.sh), but I will not cover this part. RTFM 🤓
 
-To make it work, you need ``bc`` ``sysstat``:
+To make it work, you need ``bc`` and ``sysstat``:
 
 ``apt install bc sysstat``
 
@@ -301,11 +307,11 @@ To add a cron job, edit the crontab file as root:
 
 ### Setting up Wordpress
 
-Now that we are done with the mandatory part, let's move on to the bonus.
+With the mandatory part behind us, let's now turn our attention to the bonus.
 
 #### Packages Installation
 
-To run Wordpress, we need a web server, a database management system and PHP.
+To run Wordpress, a web server, a database management system, and PHP are required.
 
 ``apt install lightppd`` | lighttpd, a super light web server.
 
@@ -317,13 +323,13 @@ To run Wordpress, we need a web server, a database management system and PHP.
 
 #### Firewall and Enabling PHP
 
-To enable PHP on the web server, type:
+To enable PHP on the web server, type this command:
 
 ``lighttpd-enable-mod fastcgi fastcgi-php``
 
-Then, to restart the web server and apply changes: ``systemctl restart lighttpd``
+Following this, restart the web server to apply the changes with: ``systemctl restart lighttpd``
 
-Remember about the firewall? It's only allowing incoming requests on the port 4242. We need to open the port 80, which is used for HTTP requests.
+Also, recall the firewall settings we discussed earlier? Currently, it only permits incoming requests on port 4242. To accommodate HTTP requests, we need to open port 80."
 
 ``ufw allow http``
 
@@ -331,25 +337,25 @@ Remember about the firewall? It's only allowing incoming requests on the port 42
 
 #### Port Forwarding
 
-Again, we need to forward requests in Virtualbox.
+Once again, we need to set up port forwarding in Virtualbox.
 
-Create a port forwarding rule from any available host port to guest port 80.
+Establish a port forwarding rule that redirects requests from any available port on the host to guest port 80.
 
-From now on, you should be able to access your web server at [127.0.0.1:1672](http://127.0.0.1:1672) (replace 1672 with your host port).
+Your web server should now be accessible at [127.0.0.1:1672](http://127.0.0.1:1672) (replace 1672 with chosen host port).
 
 ![Wordpress3](img/wordpress3.gif)
 
 #### Database
 
-Enter the mariadb promt by typing ``mariadb``
+Access the mariadb prompt by typing ``mariadb``
 
 Then, type this:
 
 ``CREATE DATABASE chlimous_db;`` | Creates the ``chlimous_db`` database.
 
-``CREATE USER chlimous@localhost;`` | Creates the user ``chlimous`` and restricts him to connect to the database only from localhost.
+``CREATE USER chlimous@localhost;`` | Creates the user ``chlimous`` and restricts his access to connect to the database solely from ``localhost``.
 
-``GRANT ALL PRIVILEGES ON chlimous_db.* TO chlimous@localhost;`` | Gives full permissions to user ``chlimous`` on host ``localhost`` for all tables of database ``chlimous_db``.
+``GRANT ALL PRIVILEGES ON chlimous_db.* TO chlimous@localhost;`` | Gives complete permissions to the user ``chlimous`` on the ``localhost`` host for all tables in the database ``chlimous_db``.
 
 ``FLUSH PRIVILEGES;`` | Updates permissions.
 
@@ -357,21 +363,21 @@ Then, type this:
 
 #### Putting things together
 
-There is one thing missing: Wordpress.
+There is one element left to add: Wordpress.
 
-Move to ``/var/www/html`` which is the root of your web server. Delete existing files: ``rm *``
+Move to ``/var/www/html/``, the root of your web server. Delete any existing files in this directory: ``rm *``
 
 ``wget https://wordpress.org/latest.tar.gz`` | Downloads the latest version of Wordpress.
 
 ``tar xvf *.tar.gz && rm *.tar.gz`` | Unpacks the archive and deletes it.
 
-``mv wordpress/* . && rm -r wordpress`` | Moves Wordpress files to root and deletes the empty directory.
+``mv wordpress/* . && rm -r wordpress`` | Moves Wordpress files to the root directory and deletes the empty Wordpress directory.
 
-``chown -R www-data:www-data /var/www/html/`` | Changes the ownership of the directory to ``www-data``. That is required by the web server.
+``chown -R www-data:www-data /var/www/html/`` | Changes the ownership of the ``/var/www/html/`` directory to ``www-data``. This step is necessary for the web server to function properly.
 
 ![Wordpress4](img/wordpress4.gif)
 
-Come back to [127.0.0.1:1672](http://127.0.0.1:1672). We can now access Wordpress, we just need to give database access. The installation is straight forward: select language, enter DB name and user. That's it.
+Return to [127.0.0.1:1672](http://127.0.0.1:1672). You can now access Wordpress, but first, you need to configure database access. The installation process is straightforward: simply select your language, then enter the database name and user credentials. Your website is ready to go.
 
 ![Wordpress5](img/wordpress5.gif)
 
@@ -381,12 +387,12 @@ Come back to [127.0.0.1:1672](http://127.0.0.1:1672). We can now access Wordpres
 
 #### What to choose?
 
-You can host any service you like.
+The possibilities for hosting services are limitless.
 
-Here are some ideas:
+Here are a few suggestions to get you started:
 
-- Generative IA (Stable Diffusion)
-- Monitoring (Premetheus/Grafana)
+- Generative AI (Stable Diffusion)
+- Monitoring (Prometheus/Grafana)
 - Finance (Ghostfolio)
 - ERP/CRM (Odoo)
 - Blockchain (Node)
@@ -409,21 +415,23 @@ Here are some ideas:
 - Git Server (Gitlab)
 - Forum (Discourse)
 
-... and much more.
+... and the list goes on.
 
 #### Setting up Netdata
 
-I chose Netdata, an open source monitoring service in the vein of Prometheus/Grafana.
+I opted for Netdata, an open source monitoring service in the vein of Prometheus/Grafana.
 
 ``apt install netdata``
 
-Netdata is running on port 19999. You need to open it: ``ufw allow 19999``
+Netdata operates on port 19999, so you'll need to open this port: ``ufw allow 19999``
 
 It is already enabled on startup, you can check it by typing: ``systemctl is-enabled netdata``
 
-Finally, make a port forwarding from any unused host port to guest port 19999. You should know how it works by now! I used 1372 as host port.
+Lastly, set up port forwarding from any unused host port to the guest port 19999. By this point, you should be familiar with how it works! I used 1372 as the host port.
 
-Netdata is now reachable: [127.0.0.1:1372](http://127.0.0.1:1372)
+You may need to change the IP address to 0.0.0.0 in the ``etc/netdata/netdata.conf`` file.
+
+With these settings, Netdata should now be reachable at [127.0.0.1:1372](http://127.0.0.1:1372)
 
 ![Netdata](img/netdata.gif)
 
@@ -431,15 +439,15 @@ Netdata is now reachable: [127.0.0.1:1372](http://127.0.0.1:1372)
 
 ### Signature and Snapshots
 
-Last but not least in this born2beroot guide, you have to generate the hash of your .vdi file. It is to make sure that your VM has not been changed between project closure and evaluations.
+Last but not least of this born2beroot guide, you have to generate the hash of your .vdi file. This ensures that your virtual machine remains unchanged between the project's closure and subsequent evaluations.
 
-First, shutdown your guest machine and make a snapshot of it on Virtualbox. This allows you to restore to the exact same state of the snapshot anytime, even if you made big changes on your system. You will use it before each evaluation.
+First, shut down your guest machine and take a snapshot of it in Virtualbox. This step enables you to revert to the exact state captured in the snapshot at any time, regardless of any significant changes made to your system thereafter. Be sure to use this snapshot before each evaluation.
 
-Navigate to the directory where your VM is located.
+Navigate to the directory containing your virtual machine.
 
-``sha1sum debian.vdi`` | Generates SHA-1 hash for ``debian.vdi`` file.
+``sha1sum debian.vdi`` | Generates the SHA-1 hash for the ``debian.vdi`` file.
 
-The larger your virtual disk is the longer it will take to generate the signature.
+Be aware that this process might take a long time. The larger your virtual disk size, the longer it will take to generate the hash signature.
 
 ![Signature](img/signature.gif)
 
