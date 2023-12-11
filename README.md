@@ -329,7 +329,7 @@ To enable PHP on the web server, type this command:
 
 Following this, restart the web server to apply the changes with: ``systemctl restart lighttpd``
 
-Also, recall the firewall settings we discussed earlier? Currently, it only permits incoming requests on port 4242. To accommodate HTTP requests, we need to open port 80."
+Also, recall the firewall settings we discussed earlier? Currently, it only permits incoming requests on port 4242. To accommodate HTTP requests, we need to open port 80.
 
 ``ufw allow http``
 
