@@ -285,7 +285,7 @@ With the new rules enforced, update the passwords for both your user account and
 
 #### Writing the cript
 
-[You can check my script](monitoring.sh), but I will not cover this part. RTFM 🤓
+[You can check my script](monitoring.sh), but I will not cover this part. RTFM DYOR 🤓
 
 To make it work, you need ``bc`` and ``sysstat``:
 
@@ -405,6 +405,7 @@ Here are a few suggestions to get you started:
 - Containers Utility (Docker)
 - Hosting Panel (Cloudron)
 - Automation (Automatisch)
+- Torrents (qBittorrent)
 - IDE (Visual Studio Code Server)
 - Social Platform (Revolt)
 - Chat (Rocket.Chat)
