@@ -6,7 +6,7 @@
 #    By: chlimous <chlimous@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/22 19:21:21 by chlimous          #+#    #+#              #
-#    Updated: 2023/11/23 01:23:04 by chlimous         ###   ########.fr        #
+#    Updated: 2023/12/16 16:29:36 by chlimous         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,11 +36,9 @@ cmd3=$(df -h --block-size=G --total | tail -n 1 | awk '{print $5}' | cut -d % -f
 printf "#Disk Usage: $cmd1/$cmd2%s ($cmd3%%)\n" "Gb"
 
 
-#cmd=$(grep 'cpu ' /proc/stat | awk '{print ($2+$4)*100/($2+$4+$5)}')
 cmd1=$(mpstat | tail -n 1 | awk '{print $4}')
 cmd2=$(mpstat | tail -n 1 | awk '{print $6}')
 cmd3=$(echo "$cmd1 + $cmd2" | bc)
-#cmd=$(($(mpstat | tail -n 1 | awk '{print $4}') + $(mpstat | tail -n 1 | awk '{print $4}')))
 printf "#CPU load: $cmd3%%\n"
 
 
@@ -58,7 +56,6 @@ else
 fi
 
 
-#cmd=$(($(ss -t state established | wc -l) - 1))
 cmd=$(echo "$(ss -t state established | wc -l) - 1" | bc)
 printf "#Connections TCP: $cmd ESTABLISHED\n"
 
