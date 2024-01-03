@@ -72,7 +72,7 @@ First, we need to get the latest ISO image of Debian. You can obtain it from [De
 Open up Virtualbox and click "New". Name your virtual machine, choose the downloaded ISO image, and select a storage location for the data. If you're at 42 Paris, consider using an external drive or storing it in your sgoinfre, given that your home directory is limited to 5 GB and sgoinfre to 30 GB. Make sure to check "Skip Unattended Installation" before proceeding to the next step.
 </p>
 <p>
-Now, let's allocate resources to our virtual machine. I recommend allocating at least 4 GiB of RAM and 2 CPU cores, though I used 8 GiB of RAM and 4 vCPU cores for better performance.
+Now, let's allocate resources to our virtual machine. I recommend allocating at least 4 GiB of RAM and 2 vCPU cores, though I used 8 GiB of RAM and 4 vCPU cores for better performance.
 </p>
 <p>
 For storage, 10 GiB should suffice, but I opted for 20 GiB. Check "Pre-allocate Full Size".
