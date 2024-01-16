@@ -72,7 +72,7 @@ First, we need to get the latest ISO image of Debian. You can obtain it from [De
 Open up Virtualbox and click "New". Name your virtual machine, choose the downloaded ISO image, and select a storage location for the data. If you're at 42 Paris, consider using an external drive or storing it in your sgoinfre, given that your home directory is limited to 5 GB and sgoinfre to 30 GB. Make sure to check "Skip Unattended Installation" before proceeding to the next step.
 </p>
 <p>
-Now, let's allocate resources to our virtual machine. I recommend allocating at least 4 GiB of RAM and 2 CPU cores, though I used 8 GiB of RAM and 8 CPU cores for better performance.
+Now, let's allocate resources to our virtual machine. I recommend allocating at least 4 GiB of RAM and 2 vCPU cores, though I used 8 GiB of RAM and 8 vCPU cores for better performance.
 </p>
 <p>
 For storage, 10 GiB should suffice, but I opted for 20 GiB. Check "Pre-allocate Full Size".
@@ -193,11 +193,13 @@ Add the following lines:
 
 ``Defaults badpass_message="WRONG PASSWORD"`` | Displays a custom message when using a wrong password with sudo.
 
+``Defaults logfile="/var/log/sudo/sudo.log"`` | Sets the input logs file.
+
 ``Defaults log_input`` | Logs input.
 
 ``Defaults log_output`` | Logs output.
 
-``Defaults iolog_dir=/var/log/sudo`` | Sets the directory to save logs.
+``Defaults iolog_dir=/var/log/sudo`` | Sets the directory to save additional output and input logs.
 
 ``Defaults passwd_tries=3`` | Limits connection attempts using sudo.
 
@@ -313,7 +315,7 @@ With the mandatory part behind us, let's now turn our attention to the bonus.
 
 To run Wordpress, a web server, a database management system, and PHP are required.
 
-``apt install lightppd`` | lighttpd, a super light web server.
+``apt install lighttpd`` | lighttpd, a super light web server.
 
 ``apt install mariadb-server`` | MariaDB, a fork of MySQL.
 
@@ -325,7 +327,7 @@ To run Wordpress, a web server, a database management system, and PHP are requir
 
 To enable PHP on the web server, type this command:
 
-``lighttpd-enable-mod fastcgi fastcgi-php``
+``lighttpd-enable-mod fastcgi fastcgi-php``v
 
 Following this, restart the web server to apply the changes with: ``systemctl restart lighttpd``
 
@@ -415,6 +417,7 @@ Here are a few suggestions to get you started:
 - Notes (Standard Notes)
 - Git Server (Gitlab)
 - Forum (Discourse)
+- RSS Aggregator (FreshRSS)
 
 ... and the list goes on.
 
