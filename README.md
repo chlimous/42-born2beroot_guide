@@ -401,6 +401,7 @@ Here are a few suggestions to get you started:
 - Media Server (Jellyfin)
 - Game Server (Minecraft)
 - NAS (Nextcloud)
+- Video Streaming (Peertube)
 - Translation (LibreTranslate)
 - Analytics (Matomo)
 - Speedtest (LibreSpeed)
