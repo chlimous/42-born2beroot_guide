@@ -50,7 +50,7 @@ There are two types of hypervisors:
 
 <p>
 <b>Types 1 (Bare-metal):</b>
-These run directly on the host's hardware, facilitating optimized resource allocation. Popular examples include VMWare ESXi, Microsoft Hyper-V and Proxmox. They are used in server enrionments.
+These run directly on the host's hardware, facilitating optimized resource allocation. Popular examples include VMWare ESXi, Microsoft Hyper-V and Proxmox. They are used in server environments.
 </p>
 <p>
 <b>Types 2 (Hosted)</b>:
@@ -327,7 +327,7 @@ To run Wordpress, a web server, a database management system, and PHP are requir
 
 To enable PHP on the web server, type this command:
 
-``lighttpd-enable-mod fastcgi fastcgi-php``v
+``lighttpd-enable-mod fastcgi fastcgi-php``
 
 Following this, restart the web server to apply the changes with: ``systemctl restart lighttpd``
 
